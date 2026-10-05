@@ -1,0 +1,14 @@
+{
+  "name": "tuzi-skills",
+  "description": "tuzi — 소프트웨어 라이프사이클 순서로 묶은 Claude Code 스킬",
+  "owner": {
+    "name": "itpe-ince"
+  },
+  "plugins": [
+    {
+      "name": "tuzi",
+      "source": "./",
+      "description": "소프트웨어 라이프사이클 순서로 묶은 스킬 — start · go · fix · check · report · ship · handoff · auto · team"
+    }
+  ]
+}

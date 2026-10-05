@@ -1,8 +1,12 @@
-# tuzi-core — 반복 요청에서 뽑은 스킬 묶음
+# tuzi — 근거: 반복 요청에서 뽑은 스킬
 
 > 836개 세션 전사(1.2G, 2026-07-22 ~ 2026-10-05)에서 **사람이 직접 쓴 메시지
 > 1,362건**을 걸러 빈도를 세고, 그 위에 메모리 8건·`~/.claude/CLAUDE.md`·
-> `HANDOFF.md` 를 얹어 만들었다. 스킬 **10개**.
+> `HANDOFF.md` 를 얹어 만들었다.
+>
+> v1(`tuzi-core`)은 반복 지시 하나당 스킬 하나, **10개**였다. v2 는 같은 규칙을
+> 소프트웨어 라이프사이클 단계로 다시 묶었다 — 이름이 규칙을 따라 지어져 무엇을
+> 불러야 할지 떠올리기 어려웠다. 매핑은 2장.
 
 ## 0. 왜 이 묶음인가
 
@@ -15,7 +19,7 @@
 
 ## 1. 근거 — 사람이 쓴 메시지 1,362건
 
-`harvest.py` 의 출력이다. 숫자를 고치려면 문서가 아니라 스크립트를 다시 돌린다.
+`tools/harvest.py` 의 출력이다. 숫자를 고치려면 문서가 아니라 스크립트를 다시 돌린다.
 
 ### 1.1 그대로 반복된 짧은 지시 (40자 이하, 3회 이상)
 
@@ -38,17 +42,17 @@
 
 | 주제 | 건수 | 비율 | 대응 스킬 |
 | --- | --- | --- | --- |
-| 이어받아 진행 | 192 | 14.1% | `resume-work` |
-| 실물 확인 | 137 | 10.1% | `verify-for-real` |
-| 보고 규율 | 120 | 8.8% | `change-report` |
-| 커밋·배포 | 53 | 3.9% | `commit-gate` |
-| 문서·산출물 | 27 | 2.0% | `deliverable-docs` |
-| **오케스트레이션 구성** | **15** | **1.1%** | `orchestration-setup` |
-| **워커 위임·상태** | **15** | **1.1%** | `worker-delegation` |
-| 근본 원인 | 9 | 0.7% | `root-cause-first` |
-| 폰트·서식 | 8 | 0.6% | `deliverable-docs` |
-| 과잉 금지·토큰 | 5 | 0.4% | `effort-budget` |
-| 자율 수행 | 1 | 0.1% | `autonomy-scope` |
+| 이어받아 진행 | 192 | 14.1% | `go` |
+| 실물 확인 | 137 | 10.1% | `check` |
+| 보고 규율 | 120 | 8.8% | `report` |
+| 커밋·배포 | 53 | 3.9% | `ship` |
+| 문서·산출물 | 27 | 2.0% | `report` |
+| **오케스트레이션 구성** | **15** | **1.1%** | `team` (setup) |
+| **워커 위임·상태** | **15** | **1.1%** | `team` (run·status) |
+| 근본 원인 | 9 | 0.7% | `fix` |
+| 폰트·서식 | 8 | 0.6% | `report` |
+| 과잉 금지·토큰 | 5 | 0.4% | `check` · `handoff` |
+| 자율 수행 | 1 | 0.1% | `go` |
 
 ### 1.3 지시 동사 빈도 — 중복 계상 허용
 
@@ -97,40 +101,47 @@
 
 반대로 **1회성 지시는 스킬로 만들지 않았다.**
 
-## 2. 묶음 구성 — 스킬 10개
+## 2. 묶음 구성 — v1 스킬 10개 → v2 라이프사이클 명령
 
-| 스킬 | 어떤 반복 지시를 대체하나 | 핵심 한 줄 |
+| v1 스킬 | 어떤 반복 지시를 대체하나 | v2 에서 옮겨 간 자리 |
 | --- | --- | --- |
-| [resume-work](resume-work/SKILL.md) | `진행해` 계열 70+회 | 중단 지점을 스스로 복원하고 다음 한 수를 집어 착수한다 |
-| [verify-for-real](verify-for-real/SKILL.md) | `확인` 150건 · `띄워` 40건 | 돌려 보지 않은 것을 됐다고 적지 않는다 |
-| [change-report](change-report/SKILL.md) | `보고` 132건 | 파일명·기존 동작·변경 후 동작 3열 + 이유 + 영향 파일 |
-| [commit-gate](commit-gate/SKILL.md) | `커밋` 38건 | 게이트 → 브랜치 → 경로 명시 add → 로컬 커밋. push 는 사람 확인 |
-| [orchestration-setup](orchestration-setup/SKILL.md) | 구성 요청 15건 | 구성 요청을 판단으로 건너뛰지 않는다. 구성/실행 경계를 박는다 |
-| [worker-delegation](worker-delegation/SKILL.md) | 위임·상태 15건 | 구성했으면 직접 하지 않는다. 상태를 추측으로 보고하지 않는다 |
-| [root-cause-first](root-cause-first/SKILL.md) | `근본 원인 해결해줘` 4회 | 증상을 막는 코드를 짜기 전에 원인을 말로 적는다 |
-| [effort-budget](effort-budget/SKILL.md) | `토큰` · `무한 반복` · `빨리` | 검증은 1라운드. 범위를 좁힌다. 70% 에서 인계한다 |
-| [autonomy-scope](autonomy-scope/SKILL.md) | `알아서` · `묻지 말고` | 워크트리 안은 묻지 않는다. 바깥은 묻는다 |
-| [deliverable-docs](deliverable-docs/SKILL.md) | `만들` 100건 · `문서` 27건 | 산출물 본문 폰트는 Pretendard. 포맷별 지정법 |
+| resume-work | `진행해` 계열 70+회 | [`go`](../skills/go/SKILL.md) 절차 1~4 |
+| autonomy-scope | `알아서` · `묻지 말고` | [`go`](../skills/go/SKILL.md) 「자율 범위」 |
+| root-cause-first | `근본 원인 해결해줘` 4회 | [`fix`](../skills/fix/SKILL.md) 전체 |
+| verify-for-real | `확인` 150건 · `띄워` 40건 | [`check`](../skills/check/SKILL.md) 절차 1~4 · 보고 |
+| effort-budget (검증 상한·복원) | `토큰` · `무한 반복` · `빨리` | [`check`](../skills/check/SKILL.md) 「상한」 |
+| effort-budget (70% 인계) | 〃 | [`handoff`](../skills/handoff/SKILL.md) 전체 |
+| change-report | `보고` 132건 | [`report`](../skills/report/SKILL.md) A |
+| deliverable-docs | `만들` 100건 · `문서` 27건 | [`report`](../skills/report/SKILL.md) B |
+| commit-gate | `커밋` 38건 | [`ship`](../skills/ship/SKILL.md) 전체 |
+| orchestration-setup | 구성 요청 15건 | [`team/references/setup.md`](../skills/team/references/setup.md) |
+| worker-delegation | 위임·상태 15건 | [`team/references/delegation.md`](../skills/team/references/delegation.md) |
 
-### 스킬 사이의 관계
+v2 에서 **새로 생긴** 것은 넷이다. `start`·`auto`·`help` 는 기존 근거의 조합이고,
+`team plan` 은 v1 집계 뒤 같은 요구가 두 번째로 나와 올렸다.
+
+| v2 명령 | 근거 |
+| --- | --- |
+| `start` | "제품이 2주간 한 번도 돌지 않았다"(effort-budget·verify-for-real 의 실례) + "착수 전부터 빨간 검사"(5장) — 시작 시점에 막는다 |
+| `auto` | `끝나면 알려줘` 4회 · `qa 끝나면 갭 수정까지 바로 진행해` 3회 — 단계 경계에서 멈추지 말라는 지시를 명령 하나로 |
+| `help` | 라이프사이클 지도. 이름만 보고 무엇을 부를지 고르게 한다 |
+| `team plan` | *"요건과 현재 프로젝트 구조를 파악하여 … 영역별로 니가 판단하여 서브 에이전트들을 구성하는 작업부터 먼저 진행해"* + *"프로젝트 분석하여 … 에이전트 군단 또는 오케스트레이션 구성하는 스킬"*(2026-10-05) — 2회. 편성 실패 추궁(*"워커가 왜 다 여기 … 다 도는거야?"*, *"왜 task로 돌리는거야?"* 2회)을 설계 원칙으로 |
+
+### 단계 사이의 관계
 
 ```
-resume-work ──▶ (작업) ──▶ verify-for-real ──▶ change-report ──▶ commit-gate
-                  │                                   ▲
-                  ├── root-cause-first (버그일 때)      │
-                  ├── effort-budget (검증 상한)         │
-                  ├── autonomy-scope (파괴적 작업 직전)  │
-                  └── deliverable-docs (문서 산출물) ────┘
+start ──▶ go ⇄ fix ──▶ check ──▶ report ──▶ ship ──▶ handoff ──▶ (다음 세션) go
+          └──────────── auto 가 이 구간을 멈추지 않고 돈다 ────────────┘
 
-orchestration-setup ──▶ worker-delegation ──▶ (위임 결과를 change-report 로)
+team = 위 흐름을 여러 워커로 나눠 돌릴 때 (plan → setup → run → status)
 ```
 
 ## 3. 다른 세션에서 취합하는 방법
 
 ```bash
-python3 harvest.py ~/.claude/projects                # 기본 (2회 이상)
-python3 harvest.py /경로/projects --min-count 3       # 임계 조정
-python3 harvest.py /경로/projects --short-len 60      # 더 긴 지시까지 "짧은 지시"로
+python3 tools/harvest.py ~/.claude/projects                # 기본 (2회 이상)
+python3 tools/harvest.py /경로/projects --min-count 3       # 임계 조정
+python3 tools/harvest.py /경로/projects --short-len 60      # 더 긴 지시까지 "짧은 지시"로
 ```
 
 출력은 셋이다 — ① 반복된 짧은 지시 ② 주제별 빈도 ③ 주제별 표본. 전부 마크다운이라
@@ -152,42 +163,30 @@ python3 harvest.py /경로/projects --short-len 60      # 더 긴 지시까지 "
 
 ### 취합 절차
 
-1. 각 세션/기계에서 `harvest.py` 를 돌려 ①②③을 받는다
+1. 각 세션/기계에서 `tools/harvest.py` 를 돌려 ①②③을 받는다
 2. **③ 표본을 먼저 읽는다.** 숫자가 그럴듯해도 표본이 노이즈면 ②는 무효다
-3. 새로 **2회 이상 반복된 지시**가 나오면, 기존 10개 스킬 중 어디에 속하는지 본다
-4. 어디에도 안 붙으면 **스킬을 하나 늘린다.** 억지로 붙이면 스킬이 뭉개진다
-5. 붙으면 그 스킬의 「왜 이 스킬이 있나」 절에 횟수와 발화를 **추가**한다.
+3. 새로 **2회 이상 반복된 지시**가 나오면, 기존 라이프사이클 명령 중 어디에 속하는지 본다
+4. 어디에도 안 붙으면 그 지시가 **어느 라이프사이클 단계에서 나왔는지** 본다. 단계가 있으면
+   그 스킬에 절을 늘리고, 단계 자체가 없으면 명령을 하나 늘린다. 억지로 붙이면 스킬이 뭉개진다
+5. 붙으면 그 스킬의 「왜 이 단계가 있나」 절에 횟수와 발화를 **추가**한다.
    규칙 본문은 손대지 않는다
 6. 기존 규칙과 **모순**되는 지시가 나오면 그게 가장 중요한 신호다 — 규칙이 틀렸거나
    맥락이 둘로 갈린 것이다. 둘 다 적고 조건을 붙인다
 7. **`THEMES` 에 없는 축은 0건으로 나오지 않고 아예 안 나온다.** 표본 ③에서 어디에도
    안 걸린 지시가 보이면 주제를 늘린다
-8. 집계를 갱신했으면 이 README 의 숫자도 같이 고친다. 문서와 스크립트가 어긋나면
+8. 집계를 갱신했으면 이 문서의 숫자도 같이 고친다. 문서와 스크립트가 어긋나면
    다음 사람이 문서를 믿는다
 
 ## 4. 설치
 
-```bash
-for d in resume-work verify-for-real change-report commit-gate \
-         orchestration-setup worker-delegation root-cause-first \
-         effort-budget autonomy-scope deliverable-docs; do
-  cp -r "$d" ~/.claude/skills/
-done
-```
-
-플러그인으로 묶을 때는 각 디렉터리를 플러그인의 `skills/` 아래로 옮긴다.
-심볼릭 링크로 걸면 이 저장소를 `git pull` 할 때마다 반영된다.
-
-```bash
-for d in */; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/; done   # SKILL.md 가 있는 것만
-```
+저장소 루트 [README](../README.md) 를 본다.
 
 ### 설치하면 CLAUDE.md 에서 빼야 하는 것
 
 | 스킬 | `~/.claude/CLAUDE.md` 에서 겹치는 절 |
 | --- | --- |
-| `change-report` | 「변경 보고 규약」 전체 |
-| `deliverable-docs` | 「산출물 폰트 규약 (Pretendard)」 전체 |
+| `report` | 「변경 보고 규약」 전체 |
+| `report` | 「산출물 폰트 규약 (Pretendard)」 전체 |
 
 같은 규칙을 두 곳에 두면 한쪽만 고치게 된다. 「응답 언어」·「응답 어조」 절은
 스킬로 옮기지 않았다 — 특정 작업이 아니라 **모든 턴에 적용**되는 것이라
@@ -199,6 +198,6 @@ for d in */; do ln -sfn "$PWD/${d%/}" ~/.claude/skills/; done   # SKILL.md 가 �
   빨간 드리프트 검사. 이건 스킬이 아니라 그 저장소의 `CLAUDE.md`·`HANDOFF.md` 자리다
 - **도구 의존 규칙** — 2026-10-05 에 hi-loop·code-viz·bkit 을 지웠다. 도구 이름이
   박힌 규칙은 도구가 사라지면 거짓말이 된다. **이 묶음의 스킬은 도구를 지명하지 않는다.**
-  `orchestration-setup` 도 "그 환경의 도구 문서를 먼저 읽는다" 로 썼다
+  `team` 도 "그 환경의 도구 문서를 먼저 읽는다" 로 썼다
 - **모든 턴에 적용되는 것** — 언어·어조
 - **1회성 지시** — 반복되지 않은 것은 스킬이 아니다

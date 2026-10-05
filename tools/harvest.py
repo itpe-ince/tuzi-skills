@@ -1,10 +1,10 @@
 #!/usr/bin/env python3
 """세션 전사에서 사람이 반복한 지시를 뽑는다.
 
-README.md 1장의 표를 만든 스크립트다. 다른 기계·다른 계정의 전사에도 그대로 돈다.
+docs/evidence.md 1장의 표를 만든 스크립트다. 다른 기계·다른 계정의 전사에도 그대로 돈다.
 
-    python3 harvest.py ~/.claude/projects
-    python3 harvest.py /경로/projects --min-count 3 --max-len 60
+    python3 tools/harvest.py ~/.claude/projects
+    python3 tools/harvest.py /경로/projects --min-count 3 --max-len 60
 
 핵심은 집계가 아니라 **주입 턴 걸러내기**다. 전사의 type:"user" 에는 오케스트레이터
 프리앰블·검증 에이전트 디스패치·슬래시 커맨드 출력이 섞여 있다. 걸러내지 않으면
