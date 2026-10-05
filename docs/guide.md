@@ -28,21 +28,6 @@ claude --plugin-dir /경로/tuzi-skills
 - 다른 플러그인이나 스킬에 같은 이름이 있으면 그때만 `/tuzi:go` 처럼 접두를 붙입니다.
 - 지도 스킬의 이름이 `help` 가 아니라 `tuzi` 인 이유는 `/help` 를 Claude Code 내장 명령이 쓰고 있기 때문입니다.
 
-### v1(tuzi-core)에서 옮겨 올 때
-
-1. `~/.claude/skills/` 에 걸어 둔 v1 스킬 10개를 지웁니다. 같은 규칙이 두 이름으로 불리면 한쪽만 고치게 됩니다.
-2. `~/.claude/CLAUDE.md` 에서 「변경 보고 규약」과 「산출물 폰트 규약」 절을 뺍니다. 이제 `report` 명령이 그 내용을 맡습니다.
-
-| v1 스킬 | v2 명령 |
-| --- | --- |
-| resume-work, autonomy-scope | `go` |
-| root-cause-first | `fix` |
-| verify-for-real, effort-budget(검증 상한) | `check` |
-| change-report, deliverable-docs | `report` |
-| commit-gate | `ship` |
-| effort-budget(70% 인계) | `handoff` |
-| orchestration-setup, worker-delegation | `team` |
-
 ## 2. 한눈에 보기
 
 명령을 하나만 기억한다면 작업을 시작할 때는 `/go`, 끝까지 맡길 때는 `/auto` 입니다. 무엇을 불러야 할지 모르면 `/tuzi` 가 지금 저장소 상태를 보고 하나를 권합니다.
