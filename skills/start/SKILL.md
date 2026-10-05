@@ -115,7 +115,16 @@ A·B 모두 마지막에 [team 의 운영 결정](../team/SKILL.md#운영-결정
 
 ## 에이전트 운영
 <단일 | 팀 — 명단은 docs/team.md> — <날짜> 결정. 이유: <한 줄>
+
+## 문서 자리
+docs/analysis · design · implementation · verification · reports · guides
+— 요청 종류별. 파일은 <YYYY-MM-DD>-<주제>.md
 ```
+
+`## 문서 자리` 는 [report 의 B.4](../report/SKILL.md#4-어디에-두나--프로젝트-docs-를-요청-종류로-나눈다)
+표를 적는다. **`docs/` 에 이미 다른 체계가 있으면 그 체계를 적는다** — 폴더를
+옮기지 않는다. 이 절은 `CLAUDE.md` 에 있어 매 세션 읽히므로, `/report` 를 거치지
+않고 만드는 분석·설계 문서도 같은 자리에 간다.
 
 ### `HANDOFF.md` 뼈대
 
