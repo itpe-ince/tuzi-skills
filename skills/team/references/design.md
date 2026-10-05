@@ -127,6 +127,9 @@ git -c core.quotePath=false log -200 --name-only --pretty=format:'--' \
 
 이름은 `w-<영역>` 으로 짓는다. 사용자가 이미 쓰는 이름이 있으면 그것을 따른다.
 
+명단을 쓰면 `CLAUDE.md` 의 `## 에이전트 운영` 절도 `팀 — 명단은 docs/team.md` 로
+맞춘다([SKILL.md](../SKILL.md) 운영 결정). 단일로 적혀 있었으면 바꾼다.
+
 ### 8. 워커 지시서를 쓴다
 
 워커는 대화 맥락을 모른다. 워커마다 아래를 채워 명단 끝에 둔다.
