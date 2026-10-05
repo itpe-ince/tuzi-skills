@@ -80,12 +80,29 @@ cd ~/.claude/skills && rm -f resume-work verify-for-real change-report commit-ga
 설치 후 `~/.claude/CLAUDE.md` 에서 「변경 보고 규약」·「산출물 폰트 규약」 절을 뺀다
 (`report` 가 맡는다).
 
+## 자동 인계
+
+플러그인에 훅 둘이 들어 있다.
+
+- **Stop** — 응답이 끝날 때 컨텍스트 사용률을 재서 임계치(기본 70%)를 넘으면 응답을
+  끝내지 못하게 막고 `/handoff` 를 시킨다. 세션마다 한 번
+- **SessionStart** — `/clear`·새 실행으로 열린 세션에서 `HANDOFF.md` 가 있으면 알린다.
+  착수는 시키지 않는다 — "진행해" 하면 `go` 가 받는다
+
+인계가 끝나면 `/clear` → `/go`. `/clear` 는 훅이 대신 칠 수 없다.
+
+| 범위 | 어디서 | 키 |
+| --- | --- | --- |
+| 사용자 전체 | `/config` → tuzi | `handoff_threshold` (기본 70, 0 이면 끔) · `context_window` (기본 0 = 자동) |
+| 프로젝트 하나 | `.claude/settings.json` 의 `"env"` | `TUZI_HANDOFF_THRESHOLD` · `TUZI_CONTEXT_WINDOW` (우선) |
+
 ## 구조
 
 ```
 .claude-plugin/        plugin.json · marketplace.json
 skills/<단계>/SKILL.md  라이프사이클 명령 10개
 skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegation) 상세
+hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
 docs/evidence.md       근거 — 사람이 쓴 메시지 1,362건 집계
 tools/harvest.py       근거를 다시 세는 스크립트
