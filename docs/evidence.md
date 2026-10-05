@@ -117,14 +117,14 @@
 | orchestration-setup | 구성 요청 15건 | [`team/references/setup.md`](../skills/team/references/setup.md) |
 | worker-delegation | 위임·상태 15건 | [`team/references/delegation.md`](../skills/team/references/delegation.md) |
 
-v2 에서 **새로 생긴** 것은 넷이다. `start`·`auto`·`help` 는 기존 근거의 조합이고,
+v2 에서 **새로 생긴** 것은 넷이다. `start`·`auto`·`tuzi` 는 기존 근거의 조합이고,
 `team plan` 은 v1 집계 뒤 같은 요구가 두 번째로 나와 올렸다.
 
 | v2 명령 | 근거 |
 | --- | --- |
 | `start` | "제품이 2주간 한 번도 돌지 않았다"(effort-budget·verify-for-real 의 실례) + "착수 전부터 빨간 검사"(5장) — 시작 시점에 막는다 |
 | `auto` | `끝나면 알려줘` 4회 · `qa 끝나면 갭 수정까지 바로 진행해` 3회 — 단계 경계에서 멈추지 말라는 지시를 명령 하나로 |
-| `help` | 라이프사이클 지도. 이름만 보고 무엇을 부를지 고르게 한다 |
+| `tuzi` | 라이프사이클 지도. 이름만 보고 무엇을 부를지 고르게 한다 |
 | `team plan` | *"요건과 현재 프로젝트 구조를 파악하여 … 영역별로 니가 판단하여 서브 에이전트들을 구성하는 작업부터 먼저 진행해"* + *"프로젝트 분석하여 … 에이전트 군단 또는 오케스트레이션 구성하는 스킬"*(2026-10-05) — 2회. 편성 실패 추궁(*"워커가 왜 다 여기 … 다 도는거야?"*, *"왜 task로 돌리는거야?"* 2회)을 설계 원칙으로 |
 
 ### 단계 사이의 관계

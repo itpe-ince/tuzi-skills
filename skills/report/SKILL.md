@@ -59,10 +59,10 @@ argument-hint: "[형식: chat(기본) | md | docx | pdf | pptx | xlsx | html]"
 **영향 파일** — 호출부 `x.ts`, 테스트 `x.test.ts`. (또는 "없음")
 
 ## 확인한 것 / 확인하지 않은 것
-(/tuzi:check 의 두 칸)
+(/check 의 두 칸)
 ```
 
-버그 수정이면 `/tuzi:fix` 의 **원인 · 같은 패턴 · 강제자** 세 줄을 덧붙인다.
+버그 수정이면 `/fix` 의 **원인 · 같은 패턴 · 강제자** 세 줄을 덧붙인다.
 
 ### 형식 규칙
 
@@ -114,7 +114,7 @@ ls ~/Library/Fonts /Library/Fonts 2>/dev/null | grep -i pretendard   # macOS
 ### 3. 변환 (`.md` → 워드·PDF)
 
 원본을 그대로 옮기지 않는다. 제목 단계·표·코드 블록이 그 포맷에서 어떻게 보이는지
-맞추고, 넘치는 표는 쪼갠다. 만든 뒤 **열어 본다** (`/tuzi:check`).
+맞추고, 넘치는 표는 쪼갠다. 만든 뒤 **열어 본다** (`/check`).
 
 ### 4. 어디에 두나
 

@@ -55,4 +55,4 @@ argument-hint: "[plan <요건> | setup | run <할 일> | status | clean]"
 | w-backend | … | 완료 | 커밋 abc123, 테스트 12건 통과 |
 | w-frontend | … | 진행 중 (8분째) | 통지 없음. 목록 조회로 구동 확인됨 |
 
-워커의 "통과했다" 는 액면가로 믿지 않고 `/tuzi:check` 로 대조한다.
+워커의 "통과했다" 는 액면가로 믿지 않고 `/check` 로 대조한다.
