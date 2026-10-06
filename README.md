@@ -78,7 +78,7 @@ claude --plugin-dir /경로/tuzi-skills
 
 | 범위 | 어디서 | 키 |
 | --- | --- | --- |
-| 사용자 전체 | `/config` → tuzi | `handoff_threshold` (기본 70, 0 이면 끔) · `context_window` (기본 0 = 자동) |
+| 사용자 전체 | `/config` → tuzi | `handoff_threshold` (기본 70, 0 이면 끔) · `context_window` (기본 1000000, 0 이면 자동) |
 | 프로젝트 하나 | `.claude/settings.json` 의 `"env"` | `TUZI_HANDOFF_THRESHOLD` · `TUZI_CONTEXT_WINDOW` (우선) |
 
 ## 에이전트 운영

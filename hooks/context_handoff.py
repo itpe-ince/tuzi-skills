@@ -8,7 +8,8 @@ Stop 훅. 입력에는 사용률이 없어서 전사(transcript_path)의 마지�
      — 프로젝트별로 바꿀 때 .claude/settings.json 의 "env" 에 둔다
   2. 플러그인 설정 handoff_threshold · context_window (/config 또는 설치 시 입력)
      — Claude Code 가 CLAUDE_PLUGIN_OPTION_<KEY> 로 넘긴다
-  3. 기본값 70 · 자동
+  3. 기본값 70 · 1,000,000 (2026-10-06 — 자동 판정이 대화형 세션에서 1M 창을 200k 로 보고
+     140k 에서 막아, 기본을 1M 으로 바꿨다. 200k 창 모델이면 200000 으로 지정한다)
 임계치 0 은 끈다.
 
 창 크기를 0(자동)으로 두면 이 순서로 정한다. 어느 훅 입력에도 창 크기 필드는 없다.
@@ -29,6 +30,7 @@ import tempfile
 DEFAULT_THRESHOLD = 70.0
 STANDARD_WINDOW = 200_000
 LARGE_WINDOW = 1_000_000
+DEFAULT_WINDOW = LARGE_WINDOW
 
 
 def setting(env_key, option_key, default):
@@ -123,7 +125,7 @@ def main():
         return
 
     threshold = setting("TUZI_HANDOFF_THRESHOLD", "CLAUDE_PLUGIN_OPTION_HANDOFF_THRESHOLD", DEFAULT_THRESHOLD)
-    window = setting("TUZI_CONTEXT_WINDOW", "CLAUDE_PLUGIN_OPTION_CONTEXT_WINDOW", 0)
+    window = setting("TUZI_CONTEXT_WINDOW", "CLAUDE_PLUGIN_OPTION_CONTEXT_WINDOW", DEFAULT_WINDOW)
     if threshold <= 0:
         return
 
@@ -158,7 +160,7 @@ def main():
     if guessed:
         reason += (
             " 창 크기는 200k 로 추정했다(모델 지정에 [1m] 없음). 1M 창이면 사용자에게 "
-            "'/config 의 tuzi context_window 를 1000000 으로 지정하면 이 이른 인계가 사라집니다' 라고 함께 알린다."
+            "'/config 의 tuzi context_window 를 기본값 1000000 으로 되돌리면 이 이른 인계가 사라집니다' 라고 함께 알린다."
         )
     print(json.dumps({"decision": "block", "reason": reason}, ensure_ascii=False))
 
