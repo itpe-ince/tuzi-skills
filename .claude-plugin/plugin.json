@@ -1,0 +1,26 @@
+{
+  "name": "tuzi",
+  "version": "2.1.3",
+  "description": "소프트웨어 라이프사이클 순서로 묶은 스킬 — start · go · fix · check · report · ship · handoff · auto · team. 세션 전사에서 반복된 지시를 세어 만들었다.",
+  "author": {
+    "name": "itpe-ince"
+  },
+  "repository": "https://github.com/itpe-ince/tuzi-skills",
+  "userConfig": {
+    "handoff_threshold": {
+      "type": "number",
+      "title": "자동 인계 임계치 (%)",
+      "description": "컨텍스트 사용률이 이 값을 넘으면 응답을 끝내기 전에 /handoff 를 수행시킨다. 백그라운드 작업이 완료 알림을 기다리는 중이면 이 값 + 15 까지 미룬다. 0 이면 끈다.",
+      "default": 70,
+      "min": 0,
+      "max": 100
+    },
+    "context_window": {
+      "type": "number",
+      "title": "컨텍스트 창 크기 (토큰)",
+      "description": "사용률 계산의 분모. 기본 1000000. 200k 창 모델이면 200000. 0 이면 자동 — 모델 지정(세션 식별자 · ANTHROPIC_MODEL · 설정 파일 model)에 [1m] 이 있거나 200000 토큰을 넘게 읽었으면 1000000, 아니면 200000.",
+      "default": 1000000,
+      "min": 0
+    }
+  }
+}
