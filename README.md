@@ -65,21 +65,6 @@ claude --plugin-dir /경로/tuzi-skills
 - 다른 플러그인·스킬에 같은 이름이 있으면 그때만 `/tuzi:go` 처럼 접두를 붙인다
 - 지도 스킬 이름이 `help` 가 아니라 `tuzi` 인 이유 — `/help` 는 내장 명령이 가져간다
 
-### v1(`tuzi-core`)에서 옮겨 올 때
-
-`~/.claude/skills/` 에 걸어 둔 v1 스킬 10개를 지운다. 같은 규칙이 두 이름으로
-불리면 한쪽만 고치게 된다. 어떤 규칙이 어디로 갔는지는
-[docs/evidence.md 2장](docs/evidence.md#2-묶음-구성--v1-스킬-10개--v2-라이프사이클-명령).
-
-```bash
-cd ~/.claude/skills && rm -f resume-work verify-for-real change-report commit-gate \
-  orchestration-setup worker-delegation root-cause-first effort-budget \
-  autonomy-scope deliverable-docs
-```
-
-설치 후 `~/.claude/CLAUDE.md` 에서 「변경 보고 규약」·「산출물 폰트 규약」 절을 뺀다
-(`report` 가 맡는다).
-
 ## 자동 인계
 
 플러그인에 훅 둘이 들어 있다.
