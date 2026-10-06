@@ -10,7 +10,8 @@
 
 ## 실행
 `claude --plugin-dir /Users/sangincha/dev/tuzi/tuzi-skills` → 한 세션만 이 체크아웃으로 시험.
-로컬 설치본(`tuzi@tuzi-skills`)은 이 디렉터리를 그 자리에서 읽는다 — 브랜치를 바꾸면 설치본도 바뀐다.
+로컬 설치본(`tuzi@tuzi-skills`, 디렉터리 마켓플레이스)은 버전별 캐시 복사본으로 기록된다 —
+고친 뒤 version 을 올리고 `claude plugin marketplace update tuzi-skills && claude plugin update tuzi@tuzi-skills`, 새 세션에서 적용.
 
 ## 하면 안 되는 것
 - `plugin.json` 의 `version` 을 그대로 둔 채 릴리스하지 않는다 — `claude plugin update` 가 "already at the latest version" 으로 끝난다
