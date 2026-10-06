@@ -12,10 +12,14 @@ Stop 훅. 입력에는 사용률이 없어서 전사(transcript_path)의 마지�
 임계치 0 은 끈다.
 
 창 크기를 0(자동)으로 두면 이 순서로 정한다. 어느 훅 입력에도 창 크기 필드는 없다.
-  a. SessionStart 훅이 남긴 모델 식별자에 [1m] 이 있으면 1,000,000
-     (/clear 뒤처럼 이 세션 값이 없으면 마지막으로 남은 값)
+  a. 모델 지정에 [1m] 이 있으면 1,000,000 — SessionStart 훅이 남긴 모델 식별자
+     (/clear 뒤처럼 이 세션 값이 없으면 마지막으로 남은 값), ANTHROPIC_MODEL,
+     설정 파일(프로젝트 .claude/settings.local.json · .claude/settings.json, 사용자
+     ~/.claude/settings.json)의 "model" 순으로 본다
   b. 실제로 읽은 토큰이 200,000 을 넘었으면 1,000,000 (그보다 작은 창일 수 없다)
-  c. 그 외 200,000
+  c. 그 외 200,000 — 근거 없는 추정이다. 1M 창인데 a 에 걸리지 않으면 b 에 닿기 전에
+     200k 기준으로 먼저 막히므로, 막을 때 창 크기를 지정하라는 안내를 붙인다
+     (2026-10-06 대화형 세션의 SessionStart model 은 "claude-opus-5-5" — [1m] 표기가 없었다)
 """
 import json
 import os
@@ -83,12 +87,31 @@ def session_model(session_id):
     return ""
 
 
+def configured_models():
+    """사용자가 지정한 모델 문자열들. 세션 식별자에 [1m] 이 빠져도 여기엔 남을 수 있다."""
+    models = [os.environ.get("ANTHROPIC_MODEL", "")]
+    project = os.environ.get("CLAUDE_PROJECT_DIR") or os.getcwd()
+    for path in (
+        os.path.join(project, ".claude", "settings.local.json"),
+        os.path.join(project, ".claude", "settings.json"),
+        os.path.join(os.path.expanduser("~"), ".claude", "settings.json"),
+    ):
+        try:
+            with open(path, encoding="utf-8") as f:
+                models.append(str(json.load(f).get("model") or ""))
+        except (OSError, ValueError, AttributeError):
+            continue
+    return models
+
+
 def auto_window(session_id, tokens):
-    if "[1m]" in session_model(session_id).lower():
-        return LARGE_WINDOW
+    """(창 크기, 근거가 있었나)"""
+    for model in [session_model(session_id)] + configured_models():
+        if "[1m]" in model.lower():
+            return LARGE_WINDOW, True
     if tokens > STANDARD_WINDOW:
-        return LARGE_WINDOW
-    return STANDARD_WINDOW
+        return LARGE_WINDOW, True
+    return STANDARD_WINDOW, False
 
 
 def main():
@@ -112,8 +135,10 @@ def main():
     tokens = last_context_tokens(path)
     if tokens is None:
         return
+    guessed = False
     if window <= 0:
-        window = auto_window(session_id, tokens)
+        window, known = auto_window(session_id, tokens)
+        guessed = not known
     pct = tokens / window * 100
     if pct < threshold:
         return
@@ -130,6 +155,11 @@ def main():
         "새 작업을 시작하지 말고 지금 handoff 스킬(/handoff) 절차를 수행하라 — "
         "미커밋 정리 후 HANDOFF.md 갱신. 끝나면 사용자에게 '/clear 입력 후 /go 로 이어받으면 됩니다' 라고 알린다."
     )
+    if guessed:
+        reason += (
+            " 창 크기는 200k 로 추정했다(모델 지정에 [1m] 없음). 1M 창이면 사용자에게 "
+            "'/config 의 tuzi context_window 를 1000000 으로 지정하면 이 이른 인계가 사라집니다' 라고 함께 알린다."
+        )
     print(json.dumps({"decision": "block", "reason": reason}, ensure_ascii=False))
 
 
