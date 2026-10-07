@@ -19,6 +19,7 @@ Claude Code 스킬 묶음. **소프트웨어 라이프사이클 순서**로 명�
 
   auto = go → check → report → ship(로컬 커밋) 을 끝까지 한 번에
   team = 여러 에이전트로 나눠 돌릴 때 (분석 → 편성 → 구성 → 위임)
+  scan = 어느 단계에서든 지금 상태를 잰다 (읽기 전용 — 착수하지 않는다)
 ```
 
 | 단계 | 명령 | 이렇게 말해도 된다 | 하는 일 |
@@ -32,6 +33,7 @@ Claude Code 스킬 묶음. **소프트웨어 라이프사이클 순서**로 명�
 | 6 인계 | `/handoff` | 세션 넘겨 · 인수인계 | `HANDOFF.md` — `/clear` 후 `go` 한 번으로 받는다. 임계치에서 훅이 부른다 |
 | 끝까지 | `/auto <목표>` | 끝나면 알려줘 | 2→5 를 멈추지 않고. 워크트리 밖에서만 멈춘다. 운영 기록이 없으면 단일로 |
 | 팀 | `/team [plan\|setup\|run\|status\|clean]` | 프로젝트 분석해서 에이전트 구성해줘 · 워커에 맡겨 | 구조·커밋 이력 분석 → 워커 명단(`docs/team.md`) → 구성 → 위임 |
+| 상태 | `/scan [분석 <대상>]` | 현재 상태 확인해줘 · 진행상황 알려줘 | 문서와 실제 상태 대조 → 어긋난 곳 · 남은 일 · 다음 명령 하나. 읽기 전용 — `/status` 는 내장 명령이 쓴다 |
 | 지도 | `/tuzi` | 뭐 써야 해? | 이 표 + 지금 저장소 상태에 맞는 다음 명령 하나 |
 
 **하나만 기억한다면** — 시작할 때 `/go`, 끝까지 맡길 때 `/auto`. 자세한 사용법은 [docs/guide.md](docs/guide.md).
@@ -110,7 +112,7 @@ claude --plugin-dir /경로/tuzi-skills
 
 ```
 .claude-plugin/        plugin.json · marketplace.json
-skills/<단계>/SKILL.md  라이프사이클 명령 10개
+skills/<단계>/SKILL.md  라이프사이클 명령 11개
 skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegation) 상세
 hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
