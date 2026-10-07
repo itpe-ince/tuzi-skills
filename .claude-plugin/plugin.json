@@ -1,6 +1,6 @@
 {
   "name": "tuzi",
-  "version": "2.1.3",
+  "version": "2.1.4",
   "description": "소프트웨어 라이프사이클 순서로 묶은 스킬 — start · go · fix · check · report · ship · handoff · auto · team. 세션 전사에서 반복된 지시를 세어 만들었다.",
   "author": {
     "name": "itpe-ince"
