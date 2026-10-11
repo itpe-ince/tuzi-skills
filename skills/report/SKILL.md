@@ -104,6 +104,12 @@ CDN: `https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretend
 ls ~/Library/Fonts /Library/Fonts 2>/dev/null | grep -i pretendard   # macOS
 ```
 
+**HTML 의 다이어그램은 렌더러까지 넣는다.** md 뷰어는 ` ```mermaid ` 를 그려 주지만
+HTML 은 아무것도 그려 주지 않는다 — `<pre class="mermaid">` 만 두면 화면에 소스 텍스트가
+그대로 나온다(2026-10-12, `flowchart LR` 4개가 텍스트로 노출). 다이어그램을 넣었으면
+Mermaid 스크립트(CDN `cdn.jsdelivr.net/npm/mermaid@11`)를 불러와 실행하고, 헤드리스
+브라우저로 열어 **블록마다 SVG 로 바뀌었는지** 확인한다. 못 열어 봤으면 미확인이라고 적는다.
+
 ### 2. 정본 문서를 갱신하는 요청은 새 문서가 아니다
 
 `docs/X.md 에 반영해줘`·`로드맵 재편해줘`:
