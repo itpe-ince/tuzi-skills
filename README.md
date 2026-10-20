@@ -21,6 +21,7 @@ Claude Code 스킬 묶음. **소프트웨어 라이프사이클 순서**로 명�
   team = 여러 에이전트로 나눠 돌릴 때 (분석 → 편성 → 구성 → 위임)
   scan = 어느 단계에서든 지금 상태를 잰다 (읽기 전용 — 착수하지 않는다)
   bench = 유사 시스템·IT 동향과 비교 → 이슈 → 플랜 (문서로 남기고 착수하지 않는다)
+  spec = 구현 전에 자료·대화를 분석해 기획·설계서 (요구마다 출처 · 문서만 쓰고 착수하지 않는다)
 ```
 
 | 단계 | 명령 | 이렇게 말해도 된다 | 하는 일 |
@@ -36,6 +37,7 @@ Claude Code 스킬 묶음. **소프트웨어 라이프사이클 순서**로 명�
 | 팀 | `/team [plan\|setup\|run\|status\|clean]` | 프로젝트 분석해서 에이전트 구성해줘 · 워커에 맡겨 | 구조·커밋 이력 분석 → 워커 명단(`docs/team.md`) → 구성 → 위임 |
 | 상태 | `/scan [분석 <대상>]` | 현재 상태 확인해줘 · 진행상황 알려줘 | 문서와 실제 상태 대조 → 어긋난 곳 · 남은 일 · 다음 명령 하나. 읽기 전용 — `/status` 는 내장 명령이 쓴다 |
 | 벤치마크 | `/bench [주제]` | 유사 시스템 분석해줘 · 이슈 도출하고 플랜 세워줘 | 유사 시스템·최근 IT 동향 조사(출처·확인일) → 코드 근거로 비교 → 이슈 → 플랜. `docs/analysis/` 문서 |
+| 설계 | `/spec [자료·주제]` | 기획서 써줘 · 설계서 만들어줘 · 화면 설계서 | 자료·대화의 요구를 출처와 함께 뽑기 → 결정 목록 → 아이디어·검증 → 화면·데이터·API·권한·단계 계획. `docs/design/` 에 판으로, 착수하지 않는다. `/design` 은 내장 명령이 쓴다 |
 | 지도 | `/tuzi` | 뭐 써야 해? | 이 표 + 지금 저장소 상태에 맞는 다음 명령 하나 |
 
 **하나만 기억한다면** — 시작할 때 `/go`, 끝까지 맡길 때 `/auto`. 자세한 사용법은 [docs/guide.md](docs/guide.md).
@@ -114,7 +116,7 @@ claude --plugin-dir /경로/tuzi-skills
 
 ```
 .claude-plugin/        plugin.json · marketplace.json
-skills/<단계>/SKILL.md  라이프사이클 명령 12개
+skills/<단계>/SKILL.md  라이프사이클 명령 13개
 skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegation) 상세
 hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
