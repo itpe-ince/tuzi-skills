@@ -107,8 +107,18 @@ ls ~/Library/Fonts /Library/Fonts 2>/dev/null | grep -i pretendard   # macOS
 **HTML 의 다이어그램은 렌더러까지 넣는다.** md 뷰어는 ` ```mermaid ` 를 그려 주지만
 HTML 은 아무것도 그려 주지 않는다 — `<pre class="mermaid">` 만 두면 화면에 소스 텍스트가
 그대로 나온다(2026-10-12, `flowchart LR` 4개가 텍스트로 노출). 다이어그램을 넣었으면
-Mermaid 스크립트(CDN `cdn.jsdelivr.net/npm/mermaid@11`)를 불러와 실행하고, 헤드리스
-브라우저로 열어 **블록마다 SVG 로 바뀌었는지** 확인한다. 못 열어 봤으면 미확인이라고 적는다.
+Mermaid 스크립트(CDN `cdn.jsdelivr.net/npm/mermaid@11`)를 불러와 실행하고, 이 스킬 폴더의
+스크립트로 **블록마다 SVG 로 바뀌었는지** 확인한다. 새로 짜지 않는다.
+
+```bash
+python3 <이 스킬 폴더>/scripts/check_mermaid.py <html 파일>...
+```
+
+| 종료 코드 | 뜻 | 보고 |
+| --- | --- | --- |
+| 0 | 전부 그려짐 | 스크립트 출력(블록 수)을 근거로 적는다 |
+| 1 | 안 그려졌거나 문법 오류 | 고치고 다시 돌린다 |
+| 2 | 브라우저가 없거나 열지 못함 | **미확인**이라고 적는다. 브라우저를 설치하지 않는다 |
 
 ### 2. 정본 문서를 갱신하는 요청은 새 문서가 아니다
 
