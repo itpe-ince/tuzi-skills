@@ -117,6 +117,7 @@ claude --plugin-dir /경로/tuzi-skills
 ```
 .claude-plugin/        plugin.json · marketplace.json
 skills/<단계>/SKILL.md  라이프사이클 명령 13개
+skills/report/scripts/  check_mermaid.py — HTML 의 Mermaid 가 그려졌는지 확인
 skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegation) 상세
 hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
@@ -139,6 +140,9 @@ python3 tools/harvest.py ~/.claude/projects --min-count 3
 - **스킬은 도구를 지명하지 않는다.** 도구 이름이 박힌 규칙은 그 도구가 사라지면
   거짓말이 된다. 실제로 겪었다 — 2026-10-05 에 hi-loop·code-viz·bkit 을 지웠을 때
   규칙 문서만 남아 매 턴 노출됐다
+- **어디서나 쓰는 확인 스크립트는 스킬에 둔다.** 같은 코드를 매번 새로 짜지 않게 — 2회 이상
+  반복된 것만. 도구를 찾지 못하면 설치하지 않고 "확인 못 함" 으로 끝나야 위 규칙과 맞는다
+  (`skills/report/scripts/check_mermaid.py`)
 - **프로젝트 고유 지식은 스킬이 아니다.** 게이트 스크립트 이름, 바꾸면 안 되는 키 같은
   것은 그 저장소의 `CLAUDE.md`·`HANDOFF.md` 자리다 (`start` 가 뼈대를 만든다)
 - **모든 턴에 적용되는 것도 스킬이 아니다.** 응답 언어·어조는 `CLAUDE.md` 다.
