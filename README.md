@@ -122,6 +122,7 @@ skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegat
 hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
 docs/evidence.md       근거 — 사람이 쓴 메시지 1,362건 집계
+docs/skill-failures.md 스킬이 실제로 틀린 기록 — 원인과 바꾼 것
 tools/harvest.py       근거를 다시 세는 스크립트
 ```
 
@@ -150,5 +151,7 @@ python3 tools/harvest.py ~/.claude/projects --min-count 3
 - **1회성 지시는 스킬이 아니다.** 반복된 것만 올린다
 - **명령 이름은 라이프사이클 동사다.** 규칙 내용으로 이름을 짓지 않는다 — v1 이
   그래서 무엇을 불러야 할지 떠올리기 어려웠다
+- **고쳤으면 계기가 된 상황을 다시 돌린다.** 전후를 PR 에 적고 실패는
+  [docs/skill-failures.md](docs/skill-failures.md) 에 남긴다
 - **숫자를 바꿨으면 표본을 열어 본다.** 집계만 보고 통과시켜 두 번 틀렸다
   (주입 턴 357건, 제품 도메인 어휘 81건 — 둘 다 숫자는 그럴듯했다)
