@@ -1,6 +1,6 @@
 {
   "name": "tuzi",
-  "version": "2.4.2",
+  "version": "2.5.0",
   "description": "소프트웨어 라이프사이클 순서로 묶은 스킬 — start · go · fix · check · report · ship · handoff · auto · team · scan · bench · spec. 세션 전사에서 반복된 지시를 세어 만들었다.",
   "author": {
     "name": "itpe-ince"
@@ -21,6 +21,14 @@
       "description": "사용률 계산의 분모. 기본 1000000. 200k 창 모델이면 200000. 0 이면 자동 — 모델 지정(세션 식별자 · ANTHROPIC_MODEL · 설정 파일 model)에 [1m] 이 있거나 200000 토큰을 넘게 읽었으면 1000000, 아니면 200000.",
       "default": 1000000,
       "min": 0
+    },
+    "decision_log": {
+      "type": "number",
+      "title": "결정 이력 자동 기록",
+      "description": "질문 도구로 받은 답을 저장소의 DECISIONS.md 또는 docs/decisions.md 에 남긴다. 1 이면 켬, 0 이면 끔.",
+      "default": 1,
+      "min": 0,
+      "max": 1
     }
   }
 }

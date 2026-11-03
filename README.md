@@ -88,6 +88,19 @@ claude --plugin-dir /경로/tuzi-skills
 | 사용자 전체 | `/config` → tuzi | `handoff_threshold` (기본 70, 0 이면 끔) · `context_window` (기본 1000000, 0 이면 자동) |
 | 프로젝트 하나 | `.claude/settings.json` 의 `"env"` | `TUZI_HANDOFF_THRESHOLD` · `TUZI_CONTEXT_WINDOW` (우선) |
 
+## 결정 이력
+
+사용자에게 물어 정한 것과 그 결과를 저장소 안 문서(`DECISIONS.md` 가 있으면 그것, 없으면
+`docs/decisions.md`)에 남긴다. 나중에 그때 무엇을 골랐고 어떻게 됐는지 볼 수 있게 하려는 것이다.
+
+- **답을 받을 때** — 질문 도구의 답은 PostToolUse 훅이 날짜·질문·선택 항목·권고·채택을 자동으로 적는다.
+  대화 문장으로 받은 답과 권고대로 진행한 결정은 스킬이 적는다
+- **일이 진행되면** — `ship` 이 커밋·PR 을, `check` 가 증거를 결과 칸에 잇고 상태를 올린다
+- **상태를 볼 때** — `scan` 이 오래 대기·결과 미기재·추인 필요를 보고한다
+
+끄려면 `/config` 의 `decision_log` 를 0 으로, 프로젝트 하나만이면 `TUZI_DECISION_LOG=0`.
+형식은 [skills/go/references/decisions.md](skills/go/references/decisions.md).
+
 ## 에이전트 운영
 
 단일로 갈지 팀으로 나눌지는 **저장소마다 한 번** 정한다. 흔적은 `CLAUDE.md` 의
@@ -120,6 +133,7 @@ skills/<단계>/SKILL.md  라이프사이클 명령 13개
 skills/report/scripts/  check_mermaid.py — HTML 의 Mermaid 가 그려졌는지 확인
 skills/team/references/ 편성 설계(design) · 구성(setup) · 위임(delegation) 상세
 hooks/                 자동 인계 — 컨텍스트 임계치에서 /handoff (Stop), 새 세션에 HANDOFF.md 안내 (SessionStart)
+                       결정 이력 — 질문 도구의 답을 문서에 기록 (PostToolUse)
 docs/guide.md          사용 가이드 — 명령별 사용법 · 상황별 시나리오 · FAQ
 docs/evidence.md       근거 — 사람이 쓴 메시지 1,362건 집계
 docs/skill-failures.md 스킬이 실제로 틀린 기록 — 원인과 바꾼 것
