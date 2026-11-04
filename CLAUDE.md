@@ -10,14 +10,16 @@
 질문 도구를 거치는 훅(`decision_log.py`)은 `claude -p` 로 시험되지 않는다 — 입력 JSON 을 파이프로 넣거나 대화형 세션으로 본다.
 
 ## 스킬을 고친 뒤
-1. 계기가 된 상황을 임시 저장소에서 처음부터 재현한다(`claude -p --plugin-dir <이 체크아웃>`). 메일·외부 push·실 DB 쓰기는 빼거나 시험용으로 바꾼다
+1. 계기가 된 상황을 임시 저장소에서 처음부터 재현한다(`claude -p --plugin-dir <워크트리>`). 메일·외부 push·실 DB 쓰기는 빼거나 시험용으로 바꾼다
 2. 고치기 전과 후를 PR 본문에 적는다. 재현하지 못했으면 못 했다고 적는다 — AI 결과는 매번 달라 한 번은 증명이 아니라 표본이다
 3. `docs/skill-failures.md` 에 한 줄 남긴다. 같은 원인이 반복되면 다음 개선 대상이다
 
 ## 실행
-`claude --plugin-dir /Users/sangincha/dev/tuzi/tuzi-skills` → 한 세션만 이 체크아웃으로 시험.
-로컬 설치본(`tuzi@tuzi-skills`, 디렉터리 마켓플레이스)은 버전별 캐시 복사본으로 기록된다 —
-고친 뒤 version 을 올리고 `claude plugin marketplace update tuzi-skills && claude plugin update tuzi@tuzi-skills`, 새 세션에서 적용.
+**`/Users/sangincha/dev/tuzi/tuzi-skills` 는 master 에 둔다. 작업은 워크트리 `../tuzi-skills-work` 에서 한다.**
+로컬 설치본(`tuzi@tuzi-skills`, 디렉터리 마켓플레이스)의 훅·스킬이 이 폴더에서 바로 실행된다(2026-11-04 디버그 기록 확인) —
+브랜치를 바꾸거나 파일을 고치면 새로 여는 모든 세션에 번진다. 설치 기록에는 버전별 캐시 경로가 적혀 있지만 실행 경로는 이 폴더다.
+`claude --plugin-dir <워크트리 경로>` → 한 세션만 그 워크트리로 시험.
+머지 뒤 이 폴더에서 `git pull` 하고, version 을 올렸으면 `claude plugin marketplace update tuzi-skills && claude plugin update tuzi@tuzi-skills`. 열린 세션은 `/reload-plugins`.
 
 ## 하면 안 되는 것
 - `plugin.json` 의 `version` 을 그대로 둔 채 릴리스하지 않는다 — `claude plugin update` 가 "already at the latest version" 으로 끝난다
