@@ -47,7 +47,7 @@ argument-hint: "[plan <요건> | setup | run <할 일> | status | clean]"
 ### 흔적이 없으면 — 분석하고 한 번 묻는다
 
 구조(매니페스트·디렉터리·최근 커밋)를 [references/design.md](references/design.md)
-2~4단계만큼 가볍게 읽고, **권고 하나 + 이유 한 줄**로 묻는다.
+2~4단계만큼 가볍게 읽고, **권고 하나 + 이유 한 줄**로 묻는다([묻는 형식](../go/references/asking.md)).
 
 ```
 에이전트 운영을 아직 정하지 않은 저장소입니다. 분석 결과:
