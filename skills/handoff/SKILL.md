@@ -51,6 +51,7 @@ git status --short; git log --oneline -5; git branch --show-current
 
 ## 기다리는 것 (사용자 결정)
 - <결정할 것 — 번호 없이 읽히는 한 문장> — 권고: <하나> (<사유 한 줄>). 없으면 "없음"
+  (이미 정한 것·지금 단계보다 앞선 배포는 올리지 않는다 — [제안의 범위](../go/references/proposing.md))
 
 ## 확인한 것 / 확인 안 한 것
 | 무엇 | 상태 | 증거 |

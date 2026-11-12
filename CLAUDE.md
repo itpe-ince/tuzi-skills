@@ -21,6 +21,11 @@
 `claude --plugin-dir <워크트리 경로>` → 한 세션만 그 워크트리로 시험.
 머지 뒤 이 폴더에서 `git pull` 하고, version 을 올렸으면 `claude plugin marketplace update tuzi-skills && claude plugin update tuzi@tuzi-skills`. 열린 세션은 `/reload-plugins`.
 
+## 배포
+- 시점: 작업 단위마다 — master 머지가 곧 릴리스다(운영 서버 없음)
+- 민감도: 낮음 — 머지 요청에 경고·재확인을 붙이지 않는다(머지 자체는 사용자가 말할 때). 머지 전 `version` 올림만 확인
+- 방법: PR 머지 → 위 「실행」의 pull·플러그인 업데이트
+
 ## 하면 안 되는 것
 - `plugin.json` 의 `version` 을 그대로 둔 채 릴리스하지 않는다 — `claude plugin update` 가 "already at the latest version" 으로 끝난다
 - `docs/team.md` 경로를 바꾸지 않는다 — `team` 이 운영 결정의 흔적으로 읽는다
