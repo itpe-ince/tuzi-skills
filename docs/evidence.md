@@ -147,6 +147,7 @@ team = 위 흐름을 여러 워커로 나눠 돌릴 때 (plan → setup → run 
 python3 tools/harvest.py ~/.claude/projects                # 기본 (2회 이상)
 python3 tools/harvest.py /경로/projects --min-count 3       # 임계 조정
 python3 tools/harvest.py /경로/projects --short-len 60      # 더 긴 지시까지 "짧은 지시"로
+python3 tools/harvest.py ~/.claude/projects /경로2/projects --since 2026-10-05   # 여러 전사 폴더를 합쳐, 그 날짜 이후만
 ```
 
 출력은 셋이다 — ① 반복된 짧은 지시 ② 주제별 빈도 ③ 주제별 표본. 전부 마크다운이라
