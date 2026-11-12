@@ -112,4 +112,5 @@ git commit --amend --no-edit
 ```
 커밋 abc1234 (feature/x) — 파일 3개, 게이트 `pnpm check` 초록
 push: 안 함 (요청 없음)   ← 또는 origin/feature/x, PR #12, 배포 주소 200, 로컬 master ff (`ab12cd3`)
+직접 하실 일: 없음        ← 있으면 report 의 「직접 하실 일」 표 (배포 전 콘솔·비밀값 등록 등)
 ```
