@@ -5,6 +5,7 @@ docs/evidence.md 1장의 표를 만든 스크립트다. 다른 기계·다른 �
 
     python3 tools/harvest.py ~/.claude/projects
     python3 tools/harvest.py /경로/projects --min-count 3 --max-len 60
+    python3 tools/harvest.py ~/.claude/projects /프로필2/projects --since 2026-10-05   # 여러 경로·날짜 이후만
 
 핵심은 집계가 아니라 **주입 턴 걸러내기**다. 전사의 type:"user" 에는 오케스트레이터
 프리앰블·검증 에이전트 디스패치·슬래시 커맨드 출력이 섞여 있다. 걸러내지 않으면
@@ -54,8 +55,11 @@ THEMES = {
 }
 
 
-def human_messages(root, max_len):
-    """전사를 훑어 사람이 쓴 것으로 판정된 메시지를 흘려보낸다."""
+def human_messages(root, max_len, since=''):
+    """전사를 훑어 사람이 쓴 것으로 판정된 메시지를 흘려보낸다.
+
+    since 는 'YYYY-MM-DD'. 주면 timestamp 가 그 날짜 이전인 턴(과 timestamp 가 없는 턴)을 버린다.
+    """
     for dirpath, _, filenames in os.walk(root):
         for fn in filenames:
             if not fn.endswith('.jsonl'):
@@ -71,6 +75,8 @@ def human_messages(root, max_len):
                         except Exception:
                             continue
                         if rec.get('type') != 'user':
+                            continue
+                        if since and (rec.get('timestamp') or '') < since:
                             continue
                         content = (rec.get('message') or {}).get('content')
                         if isinstance(content, list):
@@ -100,20 +106,27 @@ def human_messages(root, max_len):
 
 def main():
     ap = argparse.ArgumentParser()
-    ap.add_argument('root', nargs='?', default=os.path.expanduser('~/.claude/projects'))
+    ap.add_argument('roots', nargs='*', default=[os.path.expanduser('~/.claude/projects')],
+                    help='전사 폴더. 여럿이면 합쳐 센다 (프로필이 둘 이상인 기계)')
+    ap.add_argument('--since', default='', help='이 날짜(YYYY-MM-DD) 이후 턴만 센다')
     ap.add_argument('--min-count', type=int, default=2, help='반복 지시로 볼 최소 횟수')
     ap.add_argument('--max-len', type=int, default=500, help='이보다 길면 주입으로 본다')
     ap.add_argument('--short-len', type=int, default=40, help='"짧은 지시" 기준 길이')
     args = ap.parse_args()
 
-    if not os.path.isdir(args.root):
-        sys.exit('경로가 없다: %s' % args.root)
+    for root in args.roots:
+        if not os.path.isdir(root):
+            sys.exit('경로가 없다: %s' % root)
+    if args.since and not re.fullmatch(r'\d{4}-\d{2}-\d{2}', args.since):
+        sys.exit('--since 는 YYYY-MM-DD 형식이다: %s' % args.since)
 
-    msgs = list(human_messages(args.root, args.max_len))
+    # 프로필 폴더가 다른 폴더를 가리키는 링크인 경우가 있다(orca 프로필 → ~/.claude/projects). 실제 경로로 한 번만 센다
+    roots = list(dict.fromkeys(os.path.realpath(r) for r in args.roots))
+    msgs = [m for root in roots for m in human_messages(root, args.max_len, args.since)]
     if not msgs:
         sys.exit('사람이 쓴 메시지를 찾지 못했다. INJECTED 필터가 과한지 본다.')
 
-    print('# 수집 결과 — %s' % args.root)
+    print('# 수집 결과 — %s%s' % (', '.join(roots), ' (%s 이후)' % args.since if args.since else ''))
     print()
     print('사람이 쓴 것으로 판정된 메시지: **%d건**' % len(msgs))
     print()
